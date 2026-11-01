@@ -1,0 +1,17 @@
+name: SDK verification
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 scripts/check-release.py
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - run: dotnet test -c Release
+      - run: dotnet list package --vulnerable --include-transitive
+      - run: dotnet pack src/Imazeo/Imazeo.csproj -c Release -o artifacts

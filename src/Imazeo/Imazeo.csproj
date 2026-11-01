@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <RootNamespace>Imazeo</RootNamespace>
+    <AssemblyName>Imazeo</AssemblyName>
+    <PackageId>Imazeo</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>Imazeo</Authors>
+    <Company>Imazeo</Company>
+    <Description>Official Imazeo .NET SDK for server-side image, transform, PDF, QR, and barcode APIs</Description>
+    <PackageTags>imazeo;images;transforms;pdf;qr;barcode;sdk</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://www.nuget.org/packages/Imazeo</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Imazeohq/imazeo-dotnet</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\README.md" Pack="true" PackagePath="\" />
+    <None Include="..\..\GUIDE.md" Pack="true" PackagePath="\" />
+    <None Include="..\..\LICENSE" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+</Project>
