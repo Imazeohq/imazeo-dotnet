@@ -40,7 +40,7 @@ public sealed class ImagesResource
         return res.Data;
     }
 
-    public async Task<Page<ImageRecord>> ListAsync(
+    public async Task<PagedResult<ImageRecord>> ListAsync(
         PageParams? parameters = null,
         CancellationToken cancellationToken = default)
     {
@@ -53,7 +53,7 @@ public sealed class ImagesResource
                 url,
                 cancellationToken: cancellationToken)
             .ConfigureAwait(false);
-        return new Page<ImageRecord>
+        return new PagedResult<ImageRecord>
         {
             Items = res.Data,
             Page = res.Meta.Page ?? parameters.Page ?? 1,

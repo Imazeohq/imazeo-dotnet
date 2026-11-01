@@ -11,6 +11,7 @@
 - Multipart uploads with required `X-Upload-Length`
 - Binary response helpers for images/PDF/QR/barcode
 - Image list `q` filename-prefix filter
+- Paginated lists return `PagedResult<T>` (C# cannot name a type `Page` with a `Page` property)
 - Transform download `If-None-Match` → HTTP 304 as `BinaryResult.NotModified`
 - `HttpClient` / `HttpMessageHandler` injection for tests and `IHttpClientFactory`
 - Default `HttpClient` refuses redirects (`AllowAutoRedirect = false`) so `X-API-Key` stays on the configured origin

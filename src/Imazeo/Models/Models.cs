@@ -11,7 +11,8 @@ public sealed class PageParams
     public string? Q { get; init; }
 }
 
-public sealed class Page<T>
+/// <summary>Paginated list result (items + page/limit/total/pages).</summary>
+public sealed class PagedResult<T>
 {
     public required IReadOnlyList<T> Items { get; init; }
     public required int Page { get; init; }

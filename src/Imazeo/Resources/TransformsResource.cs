@@ -44,7 +44,7 @@ public sealed class TransformsResource
             .ConfigureAwait(false);
     }
 
-    public async Task<Page<TransformationRecord>> ListAsync(
+    public async Task<PagedResult<TransformationRecord>> ListAsync(
         PageParams? parameters = null,
         CancellationToken cancellationToken = default)
     {
@@ -62,7 +62,7 @@ public sealed class TransformsResource
                 url,
                 cancellationToken: cancellationToken)
             .ConfigureAwait(false);
-        return new Page<TransformationRecord>
+        return new PagedResult<TransformationRecord>
         {
             Items = res.Data,
             Page = res.Meta.Page ?? parameters.Page ?? 1,
