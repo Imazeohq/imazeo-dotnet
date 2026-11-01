@@ -24,12 +24,21 @@ Confirm `artifacts/Imazeo.1.0.0.nupkg` contents (README/GUIDE/LICENSE, no secret
 
 1. Create empty public GitHub repo `Imazeohq/imazeo-dotnet` and push this tree to `main`.
 2. Tag and push: `git tag -a v1.0.0 -m "Imazeo 1.0.0"` then `git push origin main` and `git push origin v1.0.0`.
-3. Create a [nuget.org](https://www.nuget.org) account (GitHub login recommended) and create an **API key** with push scope for new packages / `Imazeo`.
-4. Publish:
+3. Create a [nuget.org](https://www.nuget.org) **API key** (username → API Keys → Create):
+   - Scopes: Push (new packages + version updates)
+   - Packages: All packages (first publish) or `Imazeo*`
+4. Prefer **no local .NET SDK**: publish from GitHub Actions
+   - Repo → **Settings** → **Secrets and variables** → **Actions** → New secret  
+     Name: `NUGET_API_KEY` → paste the nuget.org key
+   - Commit/push `.github/workflows/publish.yml` if not already on `main`
+   - **Actions** → **Publish NuGet** → **Run workflow** (branch `main`)  
+     Or push a new `v*` tag (already-pushed tags do not re-run unless you re-dispatch)
+5. Local alternative (needs .NET 8 SDK):
    ```powershell
+   dotnet pack src/Imazeo/Imazeo.csproj -c Release -o artifacts
    dotnet nuget push artifacts\Imazeo.1.0.0.nupkg --api-key <NUGET_API_KEY> --source https://api.nuget.org/v3/index.json
    ```
-5. Verify: https://www.nuget.org/packages/Imazeo/1.0.0 and `dotnet add package Imazeo --version 1.0.0`
+6. Verify: https://www.nuget.org/packages/Imazeo/1.0.0 and `dotnet add package Imazeo --version 1.0.0`
 
 ## After publish
 
