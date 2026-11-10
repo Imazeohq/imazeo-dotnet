@@ -40,7 +40,7 @@ public class ClientTests
             Assert.Equal("https://api.example.com/v1/api-key/context", req.RequestUri!.ToString());
             Assert.Equal("secret-key", req.Headers.GetValues("X-API-Key").Single());
             Assert.True(req.Headers.TryGetValues("User-Agent", out var ua));
-            Assert.Matches(@"^Imazeo-DotNet/1\.0\.0", ua.First());
+            Assert.Equal($"Imazeo-DotNet/{ImazeoVersion.SdkVersion}", ua.First());
             Assert.False(req.Headers.Contains("Authorization"));
             return JsonResponse(new
             {
