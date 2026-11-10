@@ -7,6 +7,7 @@ obj/
 *.snupkg
 TestResults/
 coverage/
+node_modules/
 .DS_Store
 qr.png
 out.webp

@@ -1,0 +1,23 @@
+{
+  "git": {
+    "requireBranch": "main",
+    "requireCleanWorkingDir": true,
+    "requireUpstream": true,
+    "commit": true,
+    "tag": true,
+    "push": true,
+    "commitMessage": "Release Imazeo ${version}.",
+    "tagName": "v${version}",
+    "tagAnnotation": "Imazeo ${version}"
+  },
+  "github": {
+    "release": true
+  },
+  "npm": {
+    "publish": false
+  },
+  "hooks": {
+    "before:init": "python scripts/check-release.py && dotnet test -c Release",
+    "after:bump": "node scripts/sync-sdk-version.mjs"
+  }
+}
