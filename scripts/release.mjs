@@ -22,6 +22,15 @@ function fail(message) {
   process.exit(1);
 }
 
+function capture(command, args) {
+  return spawnSync(command, args, {
+    cwd: root,
+    encoding: 'utf8',
+    shell: false,
+    env: process.env,
+  });
+}
+
 function run(command, args) {
   const result = spawnSync(command, args, {
     cwd: root,
@@ -33,6 +42,23 @@ function run(command, args) {
     fail(`failed to start ${command}: ${result.error.message}`);
   }
   if (result.status !== 0) process.exit(result.status ?? 1);
+}
+
+function preflight() {
+  const python = capture('python', ['--version']);
+  if (python.error || python.status !== 0) {
+    fail('python is required on PATH (used by scripts/check-release.py)');
+  }
+
+  const branch = capture('git', ['rev-parse', '--abbrev-ref', 'HEAD']);
+  if (branch.status === 0 && (branch.stdout || '').trim() !== 'main') {
+    fail(`release must run on main (current branch: ${(branch.stdout || '').trim()})`);
+  }
+
+  const dirty = capture('git', ['status', '--porcelain']);
+  if (dirty.status === 0 && (dirty.stdout || '').trim()) {
+    fail('working tree must be clean; commit or stash changes first');
+  }
 }
 
 if (process.env.GITHUB_ACTIONS === 'true') {
@@ -47,4 +73,5 @@ if (!existsSync(releaseIt)) {
   fail('release-it is not installed; run npm install');
 }
 
+preflight();
 run(process.execPath, [releaseIt]);
