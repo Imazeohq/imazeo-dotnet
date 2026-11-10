@@ -1,7 +1,9 @@
 # Imazeo — agent notes
 
-Independent NuGet package (`Imazeo`). Backend OpenAPI/`/v1` is the contract source of truth.
-Follow workspace [docs/SDK_BEHAVIOR.md](../docs/SDK_BEHAVIOR.md).
-Do not add admin or JWT portal APIs to this client.
-Publish only after the owner creates `Imazeohq/imazeo-dotnet` and a nuget.org
-API key, then follow [RELEASE.md](RELEASE.md). Never commit NuGet tokens.
+Independent public NuGet package (`Imazeo`).
+
+- Contract: published API `v1` (see [GUIDE.md](GUIDE.md))
+- Scope: Context, Images, Transforms, QR, Barcodes, PDF only
+- Do not add admin or customer JWT portal APIs
+- Do not publish without maintainer approval — see [RELEASE.md](RELEASE.md)
+- Never commit NuGet API keys; publish via Trusted Publishing (`NUGET_USER` secret only)

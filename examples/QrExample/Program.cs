@@ -15,7 +15,7 @@ static class Program
         using var client = new ImazeoClient(new ImazeoOptions
         {
             ApiKey = apiKey,
-            BaseUrl = Environment.GetEnvironmentVariable("IMAZEO_BASE_URL") ?? "http://localhost:3001",
+            BaseUrl = Environment.GetEnvironmentVariable("IMAZEO_BASE_URL") ?? "https://api.imazeo.com",
             ProjectId = Environment.GetEnvironmentVariable("IMAZEO_PROJECT_ID"),
         });
 

@@ -3,54 +3,47 @@
 Independent repository: [Imazeohq/imazeo-dotnet](https://github.com/Imazeohq/imazeo-dotnet).  
 NuGet package: [`Imazeo`](https://www.nuget.org/packages/Imazeo).  
 Supported API prefix: `v1`. SemVer lives in this repo (`Imazeo.csproj` + `ImazeoVersion.SdkVersion`)
-and is published from git tag `v1.0.0` plus `dotnet nuget push`.
+and is published from git tag `v*` via GitHub Actions.
 
-Do not publish automatically from CI until a protected release workflow is added.
 Never overwrite a published version; ship a patch instead.
+
+## One-time: Trusted Publishing
+
+On nuget.org → **Trusted Publishing** → add policy:
+
+| Field | Value |
+| --- | --- |
+| Repository owner | `Imazeohq` |
+| Repository | `imazeo-dotnet` |
+| Workflow file | `publish.yml` |
+| Environment | leave empty |
+
+In GitHub → **Settings → Secrets** set `NUGET_USER` to your nuget.org **profile username** (not email).
 
 ## Pre-publish checks
 
-```powershell
-cd D:\projects\imazeo\sdk-dotnet
-python scripts\check-release.py
+```bash
+python scripts/check-release.py
 dotnet test -c Release
 dotnet list package --vulnerable --include-transitive
 dotnet pack src/Imazeo/Imazeo.csproj -c Release -o artifacts
 ```
 
-Confirm `artifacts/Imazeo.1.0.0.nupkg` contents (README/GUIDE/LICENSE, no secrets).
+## Publish
 
-## Manual publish (first release `1.0.0`)
+1. Bump `<Version>` in `src/Imazeo/Imazeo.csproj` and `SdkVersion` in `src/Imazeo/ImazeoVersion.cs` together.
+2. Commit on `main`, then tag and push:
 
-1. Create empty public GitHub repo `Imazeohq/imazeo-dotnet` and push this tree to `main`.
-2. Tag and push: `git tag -a v1.0.0 -m "Imazeo 1.0.0"` then `git push origin main` and `git push origin v1.0.0`.
-3. Create a [nuget.org](https://www.nuget.org) **API key** (username → API Keys → Create):
-   - Scopes: Push (new packages + version updates)
-   - Packages: All packages (first publish) or `Imazeo*`
-4. Prefer **no local .NET SDK**: publish from GitHub Actions
-   - Repo → **Settings** → **Secrets and variables** → **Actions** → New secret  
-     Name: `NUGET_API_KEY` → paste the nuget.org key
-   - Commit/push `.github/workflows/publish.yml` if not already on `main`
-   - **Actions** → **Publish NuGet** → **Run workflow** (branch `main`)  
-     Or push a new `v*` tag (already-pushed tags do not re-run unless you re-dispatch)
-5. Local alternative (needs .NET 8 SDK):
-   ```powershell
-   dotnet pack src/Imazeo/Imazeo.csproj -c Release -o artifacts
-   dotnet nuget push artifacts\Imazeo.1.0.0.nupkg --api-key <NUGET_API_KEY> --source https://api.nuget.org/v3/index.json
-   ```
-6. Verify: https://www.nuget.org/packages/Imazeo/1.0.0 and `dotnet add package Imazeo --version 1.0.0`
+```bash
+git tag -a v1.0.1 -m "Imazeo 1.0.1"
+git push origin v1.0.1
+```
+
+3. Actions → **Publish NuGet** packs and pushes with OIDC.
+
+Or: Actions → **Publish NuGet** → **Run workflow**.
 
 ## After publish
 
-Smoke-install:
-
-```powershell
-mkdir $env:TEMP\imazeo-dotnet-smoke
-cd $env:TEMP\imazeo-dotnet-smoke
-dotnet new console -n Smoke
-cd Smoke
-dotnet add package Imazeo --version 1.0.0
-```
-
-If the release is bad, unlist/deprecate on NuGet per policy and ship a reviewed
-patch — do not reuse `1.0.0`.
+Verify: https://www.nuget.org/packages/Imazeo/  
+If the release is bad, unlist/deprecate on NuGet per policy and ship a reviewed patch.

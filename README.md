@@ -23,7 +23,8 @@ Integration contract and learning path: [GUIDE.md](GUIDE.md).
 dotnet add package Imazeo
 ```
 
-Requires .NET 8+. Create a project API key in the Imazeo customer portal.
+Requires .NET 8+. Create a project API key in the
+[Imazeo Customer portal](https://app.imazeo.com).
 Default API origin is `https://api.imazeo.com` (override with `BaseUrl` when needed).
 
 ## Learning path
@@ -182,14 +183,13 @@ dotnet run --project examples/UploadTransform -- path/to/image.jpg
 
 MIT
 
-## Media contract
+## Barcode and PDF notes
 
-Barcode generation requires `type` and string `content`; optional `format` is
-`png` or `svg` (default `png`), and `includeText` is a boolean (default `true`).
-PDF merge sends repeated `file` parts in order. Omit optional fields for defaults;
-JSON numbers/booleans are not coerced and top-level optional nulls are rejected.
-Barcode scale and image hue are integers. Methods retain language-specific names.
-The reviewed API-key-only contract is bundled in `openapi/backend.json`.
+Barcode generation requires `type` and string `content`. Optional `format` is
+`png` or `svg` (default `png`); `includeText` defaults to `true`.
+PDF merge uploads files in order as repeated multipart `file` parts.
+Omit optional fields to use API defaults. Integer fields such as barcode scale
+and image hue must be integers.
 
 ```csharp
 await client.Barcodes.GenerateAsync(new BarcodeGenerateInput { Type = BarcodeTypes.Code128, Content = "IMAZEO-2026", Format = "svg", IncludeText = false });

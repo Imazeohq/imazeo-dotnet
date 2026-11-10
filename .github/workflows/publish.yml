@@ -1,3 +1,12 @@
+# Publishes Imazeo to NuGet.org via Trusted Publishing (OIDC).
+#
+# nuget.org → Trusted Publishing:
+#   Repository owner: Imazeohq
+#   Repository:       imazeo-dotnet
+#   Workflow file:    publish.yml
+#
+# GitHub repo secret (optional): NUGET_USER = nuget.org profile username
+
 name: Publish NuGet
 
 on:
@@ -8,6 +17,7 @@ on:
 
 permissions:
   contents: read
+  id-token: write
 
 jobs:
   publish:
@@ -32,15 +42,15 @@ jobs:
       - name: Pack
         run: dotnet pack src/Imazeo/Imazeo.csproj -c Release -o artifacts
 
+      - name: NuGet login (OIDC)
+        id: login
+        uses: NuGet/login@v1
+        with:
+          user: ${{ secrets.NUGET_USER }}
+
       - name: Push to NuGet.org
-        env:
-          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
         run: |
-          if [ -z "$NUGET_API_KEY" ]; then
-            echo "Missing repository secret NUGET_API_KEY"
-            exit 1
-          fi
           dotnet nuget push artifacts/Imazeo.*.nupkg \
-            --api-key "$NUGET_API_KEY" \
+            --api-key "${{ steps.login.outputs.NUGET_API_KEY }}" \
             --source https://api.nuget.org/v3/index.json \
             --skip-duplicate
