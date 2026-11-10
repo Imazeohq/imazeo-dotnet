@@ -4,7 +4,7 @@ namespace Imazeo;
 public static class ImazeoVersion
 {
     /// <summary>SDK package SemVer (keep in sync with the NuGet package version).</summary>
-    public const string SdkVersion = "1.0.1";
+    public const string SdkVersion = "1.0.2";
 
     /// <summary>Default API path version.</summary>
     public const string DefaultApiVersion = "v1";

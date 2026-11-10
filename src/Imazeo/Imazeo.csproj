@@ -8,7 +8,7 @@
     <RootNamespace>Imazeo</RootNamespace>
     <AssemblyName>Imazeo</AssemblyName>
     <PackageId>Imazeo</PackageId>
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
     <Authors>Imazeo</Authors>
     <Company>Imazeo</Company>
     <Description>Official Imazeo .NET SDK for server-side image, transform, PDF, QR, and barcode APIs</Description>
