@@ -20,6 +20,12 @@ public sealed class ImazeoClient : IDisposable
     public TransformsResource Transforms { get; }
     public QrResource Qr { get; }
     public BarcodesResource Barcodes { get; }
+    public CreditsResource Credits { get; }
+    public OperationsResource Operations { get; }
+    public OutputsResource Outputs { get; }
+    public DynamicCodesResource DynamicCodes { get; }
+    public ArtifactsResource Artifacts { get; }
+    public ConversionsResource Conversions { get; }
     public PdfResource Pdf { get; }
 
     /// <summary>SDK package version (SemVer).</summary>
@@ -66,6 +72,12 @@ public sealed class ImazeoClient : IDisposable
         Transforms = new TransformsResource(_http, ResolveProjectIdAsync);
         Qr = new QrResource(_http, ResolveProjectIdAsync);
         Barcodes = new BarcodesResource(_http, ResolveProjectIdAsync);
+        Credits = new CreditsResource(_http, ResolveProjectIdAsync);
+        Operations = new OperationsResource(_http, ResolveProjectIdAsync);
+        Outputs = new OutputsResource(_http, ResolveProjectIdAsync);
+        DynamicCodes = new DynamicCodesResource(_http, ResolveProjectIdAsync);
+        Artifacts = new ArtifactsResource(_http, ResolveProjectIdAsync);
+        Conversions = new ConversionsResource(_http, ResolveProjectIdAsync);
         Pdf = new PdfResource(_http, ResolveProjectIdAsync);
     }
 

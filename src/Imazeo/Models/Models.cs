@@ -291,6 +291,10 @@ public sealed class ApiKeyContext
 
 public sealed class QrGenerateInput
 {
+    [JsonPropertyName("transparent")]
+    public bool? Transparent { get; set; }
+    [JsonPropertyName("design")]
+    public CodeDesign? Design { get; set; }
     [JsonPropertyName("content")]
     public required string Content { get; set; }
 
@@ -328,6 +332,10 @@ public static class BarcodeTypes
 
 public sealed class BarcodeGenerateInput
 {
+    [JsonPropertyName("transparent")]
+    public bool? Transparent { get; set; }
+    [JsonPropertyName("design")]
+    public CodeDesign? Design { get; set; }
     /// <summary>code128 | code39 | ean13 | ean8 | upca | itf14</summary>
     [JsonPropertyName("type")]
     public required string Type { get; set; }

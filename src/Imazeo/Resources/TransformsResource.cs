@@ -22,9 +22,15 @@ public sealed class TransformsResource
         _projectId = projectId;
     }
 
-    public async Task<BinaryResult> CreateAsync(
+    public Task<BinaryResult> CreateAsync(
         TransformRequest request,
         CancellationToken cancellationToken = default)
+        => CreateAsync(request, cancellationToken, null);
+
+    public async Task<BinaryResult> CreateAsync(
+        TransformRequest request,
+        CancellationToken cancellationToken,
+        ProcessingOptions? processing)
     {
         if (string.IsNullOrEmpty(request.ImageId) && string.IsNullOrEmpty(request.Url))
             throw new ArgumentException("Exactly one of imageId or url is required");
@@ -39,7 +45,7 @@ public sealed class TransformsResource
                 HttpMethod.Post,
                 url,
                 content,
-                headers: new Dictionary<string, string> { ["Accept"] = "*/*" },
+                headers: processing?.Headers(),
                 cancellationToken: cancellationToken)
             .ConfigureAwait(false);
     }

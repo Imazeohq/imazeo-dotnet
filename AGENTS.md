@@ -3,7 +3,7 @@
 Independent public NuGet package (`Imazeo`).
 
 - Contract: published API `v1` (see [GUIDE.md](GUIDE.md))
-- Scope: Context, Images, Transforms, QR, Barcodes, PDF only
+- Scope: project API-key context, media, credit quotes, operations, conversions, dynamic QR, artifacts and outputs
 - Do not add admin or customer JWT portal APIs
 - Do not publish without maintainer approval — see [RELEASE.md](RELEASE.md)
 - Never commit NuGet API keys; publish via Trusted Publishing (`NUGET_USER` secret only)

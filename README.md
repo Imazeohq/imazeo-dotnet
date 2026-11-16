@@ -2,14 +2,14 @@
 
 Official **server-side** .NET SDK for Imazeo.
 
-|                |                           |
-| -------------- | ------------------------- |
-| Package        | `Imazeo`                  |
-| SDK version    | `1.0.0`                   |
-| Default API    | `v1`                      |
-| Supported APIs | `v1`                      |
-| Target         | **.NET 8**                |
-| Registry       | [NuGet](https://www.nuget.org/packages/Imazeo) |
+|                |                                                     |
+| -------------- | --------------------------------------------------- |
+| Package        | `Imazeo`                                            |
+| SDK version    | `1.0.2`                                             |
+| Default API    | `v1`                                                |
+| Supported APIs | `v1`                                                |
+| Target         | **.NET 8**                                          |
+| Registry       | [NuGet](https://www.nuget.org/packages/Imazeo)      |
 | Source         | [GitHub](https://github.com/Imazeohq/imazeo-dotnet) |
 
 > **Security:** Secret API keys (`X-API-Key`) are for trusted servers only.
@@ -69,14 +69,20 @@ Sends `X-API-Key` only. Never send `Authorization` together with an API key
 
 ## Resources
 
-| Resource            | Methods                                                                                                |
-| ------------------- | ------------------------------------------------------------------------------------------------------ |
-| `client.Context`    | `GetAsync()` → project/key environment                                                                 |
-| `client.Images`     | `UploadAsync`, `ListAsync` (`Page`/`Limit`/`Q`), `GetAsync`, `DeleteAsync`, `DownloadAsync`            |
-| `client.Transforms` | `CreateAsync`, `ListAsync`, `GetAsync`, `DownloadAsync` (`ifNoneMatch` → `NotModified`), `DeleteAsync` |
-| `client.Qr`         | `GenerateAsync`                                                                                        |
-| `client.Barcodes`   | `GenerateAsync`                                                                                        |
-| `client.Pdf`        | `InfoAsync`, `RenderAsync`, `MergeAsync`, `ExtractAsync`                                               |
+| Resource              | Methods                                                                                                |
+| --------------------- | ------------------------------------------------------------------------------------------------------ |
+| `client.Context`      | `GetAsync()` → project/key environment                                                                 |
+| `client.Images`       | `UploadAsync`, `ListAsync` (`Page`/`Limit`/`Q`), `GetAsync`, `DeleteAsync`, `DownloadAsync`            |
+| `client.Transforms`   | `CreateAsync`, `ListAsync`, `GetAsync`, `DownloadAsync` (`ifNoneMatch` → `NotModified`), `DeleteAsync` |
+| `client.Qr`           | `GenerateAsync`                                                                                        |
+| `client.Barcodes`     | `GenerateAsync`                                                                                        |
+| `client.Pdf`          | `InfoAsync`, `RenderAsync`, `MergeAsync`, `ExtractAsync`                                               |
+| `client.Credits`      | Quote processing credits for an operation and measurable units                                         |
+| `client.Operations`   | Get status, look up by kind/key, and recover a temporary result                                        |
+| `client.Conversions`  | DOCX, XLSX, PPTX and website jobs: capabilities, submit, list, lookup, get, cancel, download and save  |
+| `client.DynamicCodes` | Capabilities, create, list, get, edit, scan analytics and CSV export                                   |
+| `client.Artifacts`    | Save preview bytes, list, get, download and delete private artifacts                                   |
+| `client.Outputs`      | List project outputs and retrieve counts by type                                                       |
 
 ### Upload + transform
 
