@@ -5,7 +5,7 @@ Official **server-side** .NET SDK for Imazeo.
 |                |                                                     |
 | -------------- | --------------------------------------------------- |
 | Package        | `Imazeo`                                            |
-| SDK version    | `1.0.2`                                             |
+| SDK version    | `1.1.0`                                             |
 | Default API    | `v1`                                                |
 | Supported APIs | `v1`                                                |
 | Target         | **.NET 8**                                          |
@@ -161,10 +161,10 @@ Custom handlers should keep redirects disabled so `X-API-Key` stays on the confi
 ## API version vs package version
 
 - **API** path version: `v1` (configured via `ApiVersion`)
-- **SDK** SemVer: NuGet package → `1.0.0`
+- **SDK** SemVer: NuGet package → `1.1.0`
 
 `ImazeoClient.ApiCompatibility` reports supported API versions.
-User-Agent: `Imazeo-DotNet/1.0.0`.
+User-Agent: `Imazeo-DotNet/1.1.0`.
 
 ## Not included
 
