@@ -25,11 +25,24 @@ public sealed class PdfResource
         byte[] data,
         string? filename = null,
         CancellationToken cancellationToken = default)
-        => InfoAsync(new UploadSource { Data = data, Filename = filename }, cancellationToken);
+        => InfoAsync(data, filename, cancellationToken, null);
+
+    public Task<PdfInfo> InfoAsync(
+        byte[] data,
+        string? filename,
+        CancellationToken cancellationToken,
+        ProcessingOptions? processing)
+        => InfoAsync(new UploadSource { Data = data, Filename = filename }, cancellationToken, processing);
+
+    public Task<PdfInfo> InfoAsync(
+        UploadSource source,
+        CancellationToken cancellationToken = default)
+        => InfoAsync(source, cancellationToken, null);
 
     public async Task<PdfInfo> InfoAsync(
         UploadSource source,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken,
+        ProcessingOptions? processing)
     {
         var projectId = await _projectId(cancellationToken).ConfigureAwait(false);
         var prepared = MultipartHelper.PrepareUpload(source, "document.pdf", "application/pdf");
@@ -40,6 +53,7 @@ public sealed class PdfResource
                 HttpMethod.Post,
                 url,
                 form,
+                headers: processing?.Headers(),
                 timeoutMs: ImazeoVersion.PdfTimeoutMs,
                 cancellationToken: cancellationToken)
             .ConfigureAwait(false);
@@ -50,16 +64,30 @@ public sealed class PdfResource
         byte[] data,
         PdfRenderOptions? options = null,
         CancellationToken cancellationToken = default)
-        => RenderAsync(new UploadSource { Data = data, Filename = options?.Filename }, options, cancellationToken);
+        => RenderAsync(data, options, cancellationToken, null);
+
+    public Task<object> RenderAsync(
+        byte[] data,
+        PdfRenderOptions? options,
+        CancellationToken cancellationToken,
+        ProcessingOptions? processing)
+        => RenderAsync(new UploadSource { Data = data, Filename = options?.Filename }, options, cancellationToken, processing);
 
     /// <summary>
     /// Renders PDF pages. Single-page responses return <see cref="BinaryResult"/>;
     /// multi-page JSON responses return <see cref="PdfMultiPageRenderResult"/>.
     /// </summary>
-    public async Task<object> RenderAsync(
+    public Task<object> RenderAsync(
         UploadSource source,
         PdfRenderOptions? options = null,
         CancellationToken cancellationToken = default)
+        => RenderAsync(source, options, cancellationToken, null);
+
+    public async Task<object> RenderAsync(
+        UploadSource source,
+        PdfRenderOptions? options,
+        CancellationToken cancellationToken,
+        ProcessingOptions? processing)
     {
         options ??= new PdfRenderOptions();
         var projectId = await _projectId(cancellationToken).ConfigureAwait(false);
@@ -74,6 +102,7 @@ public sealed class PdfResource
                 HttpMethod.Post,
                 url,
                 form,
+                headers: processing?.Headers(),
                 timeoutMs: ImazeoVersion.PdfTimeoutMs,
                 cancellationToken: cancellationToken)
             .ConfigureAwait(false);
@@ -94,9 +123,15 @@ public sealed class PdfResource
         throw new InvalidOperationException("Unexpected PDF render response");
     }
 
-    public async Task<BinaryResult> MergeAsync(
+    public Task<BinaryResult> MergeAsync(
         IEnumerable<UploadSource> sources,
         CancellationToken cancellationToken = default)
+        => MergeAsync(sources, cancellationToken, null);
+
+    public async Task<BinaryResult> MergeAsync(
+        IEnumerable<UploadSource> sources,
+        CancellationToken cancellationToken,
+        ProcessingOptions? processing)
     {
         var list = sources.ToList();
         if (list.Count == 0)
@@ -118,6 +153,7 @@ public sealed class PdfResource
                 HttpMethod.Post,
                 url,
                 form,
+                headers: processing?.Headers(),
                 timeoutMs: ImazeoVersion.PdfTimeoutMs,
                 cancellationToken: cancellationToken)
             .ConfigureAwait(false);
@@ -131,12 +167,26 @@ public sealed class PdfResource
         byte[] data,
         PdfExtractOptions options,
         CancellationToken cancellationToken = default)
-        => ExtractAsync(new UploadSource { Data = data, Filename = options.Filename }, options, cancellationToken);
+        => ExtractAsync(data, options, cancellationToken, null);
+
+    public Task<BinaryResult> ExtractAsync(
+        byte[] data,
+        PdfExtractOptions options,
+        CancellationToken cancellationToken,
+        ProcessingOptions? processing)
+        => ExtractAsync(new UploadSource { Data = data, Filename = options.Filename }, options, cancellationToken, processing);
+
+    public Task<BinaryResult> ExtractAsync(
+        UploadSource source,
+        PdfExtractOptions options,
+        CancellationToken cancellationToken = default)
+        => ExtractAsync(source, options, cancellationToken, null);
 
     public async Task<BinaryResult> ExtractAsync(
         UploadSource source,
         PdfExtractOptions options,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken,
+        ProcessingOptions? processing)
     {
         var projectId = await _projectId(cancellationToken).ConfigureAwait(false);
         var prepared = MultipartHelper.PrepareUpload(
@@ -150,6 +200,7 @@ public sealed class PdfResource
                 HttpMethod.Post,
                 url,
                 form,
+                headers: processing?.Headers(),
                 timeoutMs: ImazeoVersion.PdfTimeoutMs,
                 cancellationToken: cancellationToken)
             .ConfigureAwait(false);

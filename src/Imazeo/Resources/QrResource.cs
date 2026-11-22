@@ -22,9 +22,15 @@ public sealed class QrResource
         _projectId = projectId;
     }
 
-    public async Task<BinaryResult> GenerateAsync(
+    public Task<BinaryResult> GenerateAsync(
         QrGenerateInput input,
         CancellationToken cancellationToken = default)
+        => GenerateAsync(input, cancellationToken, null);
+
+    public async Task<BinaryResult> GenerateAsync(
+        QrGenerateInput input,
+        CancellationToken cancellationToken,
+        ProcessingOptions? processing)
     {
         var projectId = await _projectId(cancellationToken).ConfigureAwait(false);
         var url = _http.Path("projects", projectId, "tools", "qr");
@@ -34,7 +40,7 @@ public sealed class QrResource
                 HttpMethod.Post,
                 url,
                 content,
-                headers: new Dictionary<string, string> { ["Accept"] = "*/*" },
+                headers: processing?.Headers(),
                 timeoutMs: ImazeoVersion.LightTimeoutMs,
                 cancellationToken: cancellationToken)
             .ConfigureAwait(false);
